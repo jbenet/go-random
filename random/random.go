@@ -24,7 +24,7 @@ func main() {
 	if l == 2 {
 		err = writeRandomBytes(num, os.Stdout)
 	} else {
-		seed, err2 := strconv.Atoi(os.Args[2])
+		seed, err2 := strconv.ParseInt(os.Args[2], 10, 64)
 		if err2 != nil {
 			usageError()
 		}
@@ -54,8 +54,8 @@ func writeRandomBytes(num int, w io.Writer) error {
 	return err
 }
 
-func writePseudoRandomBytes(num int, w io.Writer, seed int) error {
-	randmath.Seed(int64(seed))
+func writePseudoRandomBytes(num int, w io.Writer, seed int64) error {
+	randmath.Seed(seed)
 	b := make([]byte, num)
 	for i := 0 ; i < num ; i++ {
 		b[i] = byte(randmath.Intn(256))
