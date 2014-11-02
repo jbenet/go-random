@@ -16,7 +16,7 @@ output name)
 
 ### Usage:
 
-```sh
+```
 > random
 Usage: random <int>
 Print <int> random bytes (from Go's crypto/rand)
