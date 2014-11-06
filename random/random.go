@@ -16,19 +16,19 @@ func main() {
 		usageError()
 	}
 
-	num, err := strconv.Atoi(os.Args[1])
+	count, err := strconv.ParseInt(os.Args[1], 10, 64)
 	if err != nil {
 		usageError()
 	}
 
 	if l == 2 {
-		err = writeRandomBytes(num, os.Stdout)
+		err = writeRandomBytes(count, os.Stdout)
 	} else {
 		seed, err2 := strconv.ParseInt(os.Args[2], 10, 64)
 		if err2 != nil {
 			usageError()
 		}
-		err = writePseudoRandomBytes(num, os.Stdout, seed)
+		err = writePseudoRandomBytes(count, os.Stdout, seed)
 	}
 
 	if err != nil {
@@ -48,16 +48,17 @@ func die(err error) {
 	os.Exit(-1)
 }
 
-func writeRandomBytes(num int, w io.Writer) error {
-	r := &io.LimitedReader{R: randcrypto.Reader, N: int64(num)}
+func writeRandomBytes(count int64, w io.Writer) error {
+	r := &io.LimitedReader{R: randcrypto.Reader, N: count}
 	_, err := io.Copy(w, r)
 	return err
 }
 
-func writePseudoRandomBytes(num int, w io.Writer, seed int64) error {
+func writePseudoRandomBytes(count int64, w io.Writer, seed int64) error {
 	randmath.Seed(seed)
-	b := make([]byte, num)
-	for i := 0 ; i < num ; i++ {
+	b := make([]byte, count)
+	var i int64
+	for i = 0; i < count; i++ {
 		b[i] = byte(randmath.Intn(256))
 	}
 	r := bytes.NewReader(b)
