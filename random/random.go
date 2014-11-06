@@ -56,13 +56,28 @@ func writeRandomBytes(count int64, w io.Writer) error {
 
 func writePseudoRandomBytes(count int64, w io.Writer, seed int64) error {
 	randmath.Seed(seed)
-	b := make([]byte, count)
-	var i int64
-	for i = 0; i < count; i++ {
-		b[i] = byte(randmath.Intn(256))
+
+	// Configurable buffer size
+	bufsize := int64(4096)
+	b := make([]byte, bufsize)
+
+	for count > 0 {
+		if bufsize > count {
+			bufsize = count
+			b = b[:bufsize]
+		}
+
+		for i := int64(0); i < bufsize; i++ {
+			b[i] = byte(randmath.Intn(256))
+		}
+		count = count - bufsize
+
+		r := bytes.NewReader(b)
+		_, err := io.Copy(w, r)
+		if err != nil {
+			return err
+		}
 	}
-	r := bytes.NewReader(b)
-	_, err := io.Copy(w, r)
-	return err
+	return nil
 }
 
