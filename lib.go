@@ -27,7 +27,7 @@ func WritePseudoRandomBytes(count int64, w io.Writer, seed int64) error {
 		}
 
 		var n uint32
-		for i := int64(0); i < bufsize; i++ {
+		for i := int64(0); i < bufsize; {
 			n = randmath.Uint32()
 			for j := 0; j < 4 && i < bufsize; j++ {
 				b[i] = byte(n & 0xff)
