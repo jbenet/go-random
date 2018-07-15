@@ -24,7 +24,7 @@ func TestPseudoRandom(t *testing.T) {
 		}
 
 		if buf.Len() != size {
-			t.Fatal("buffer not of the right size: %d != %d", buf.Len(), size)
+			t.Fatalf("buffer not of the right size: %d != %d", buf.Len(), size)
 		}
 	}
 }
@@ -48,10 +48,10 @@ func TestPseudoRandomSeed(t *testing.T) {
 		}
 
 		if bufs.Len() != int(size) {
-			t.Fatal("buffer not of the right size: %d != %d", bufs.Len(), size)
+			t.Fatalf("buffer not of the right size: %d != %d", bufs.Len(), size)
 		}
 		if bufr.Len() != int(size) {
-			t.Fatal("buffer not of the right size: %d != %d", bufr.Len(), size)
+			t.Fatalf("buffer not of the right size: %d != %d", bufr.Len(), size)
 		}
 
 		if first == nil {
@@ -82,7 +82,7 @@ func TestCryptoRandom(t *testing.T) {
 		}
 
 		if buf.Len() != size {
-			t.Fatal("buffer not of the right size: %d != %d", buf.Len(), size)
+			t.Fatalf("buffer not of the right size: %d != %d", buf.Len(), size)
 		}
 	}
 }
